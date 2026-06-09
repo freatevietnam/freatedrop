@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard · Freate Drop{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-5xl space-y-4">
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <h1 class="text-3xl font-semibold tracking-tight">Your drops</h1>
+            <p class="mt-2 text-sm text-zinc-600">Manage all Markdown drops associated with your account.</p>
+        </div>
+        <a href="/new/" class="rounded bg-zinc-900 px-4 py-2 text-white hover:bg-zinc-700">Create New Drop</a>
+    </div>
+
+    <div class="overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+        <table class="min-w-full divide-y divide-zinc-200 text-sm">
+            <thead class="bg-zinc-50">
+                <tr>
+                    <th class="px-4 py-3 text-left font-medium text-zinc-600">Title</th>
+                    <th class="px-4 py-3 text-left font-medium text-zinc-600">Created</th>
+                    <th class="px-4 py-3 text-left font-medium text-zinc-600">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-200">
+                {% for drop in drops %}
+                    <tr>
+                        <td class="px-4 py-3">{{ drop.title }}</td>
+                        <td class="px-4 py-3 text-zinc-600">{{ drop.created_at }}</td>
+                        <td class="px-4 py-3">
+                            <div class="flex flex-wrap gap-2">
+                                <a href="/{{ drop.drop_id }}/" class="rounded border border-zinc-300 px-3 py-1.5 hover:bg-zinc-100">View</a>
+                                <a href="/{{ drop.drop_id }}/edit" class="rounded border border-zinc-300 px-3 py-1.5 hover:bg-zinc-100">Edit</a>
+                                <button class="dashboard-delete rounded bg-red-600 px-3 py-1.5 text-white hover:bg-red-700" data-drop-id="{{ drop.drop_id }}">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="px-4 py-8 text-center text-zinc-500">You have not created any drops yet.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.querySelectorAll('.dashboard-delete').forEach((button) => {
+        button.addEventListener('click', async () => {
+            const dropId = button.dataset.dropId;
+            if (!window.confirm('Delete this drop permanently?')) {
+                return;
+            }
+            const response = await fetch(`/api/drops/${dropId}/`, {
+                method: 'DELETE',
+                headers: { 'X-CSRFToken': window.FreateDrop.getCsrfToken() },
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                alert(data.error || 'Unable to delete drop.');
+                return;
+            }
+            window.location.reload();
+        });
+    });
+</script>
+{% endblock %}
