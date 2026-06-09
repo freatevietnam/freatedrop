@@ -103,3 +103,9 @@ python manage.py runserver
 - Anonymous drops use an HttpOnly cookie named `drop_token_<drop_id>` for edit/delete authorization.
 - Logged-in users can manage their own drops even without the cookie.
 - Short URLs are generated lazily the first time a user clicks the shorten button.
+
+## Images
+
+![demo1](assets/images/demo1.png)
+![demo2](assets/images/demo2.png)
+![demo3](assets/images/demo3.png)
