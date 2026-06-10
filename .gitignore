@@ -19,11 +19,6 @@ db.sqlite3-journal
 media/
 staticfiles/
 
-# Environment files
-.env
-.env.*
-!.env.example
-
 # Test and coverage
 .pytest_cache/
 .coverage

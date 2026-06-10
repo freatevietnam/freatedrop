@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 from cryptography.fernet import Fernet
@@ -6,16 +5,9 @@ from cryptography.fernet import Fernet
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-def env_bool(name: str, default: bool = False) -> bool:
-    value = os.getenv(name)
-    if value is None:
-        return default
-    return value.lower() in {"1", "true", "yes", "on"}
-
-
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-freate-drop-development-key")
-DEBUG = env_bool("DEBUG", True)
-ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost,testserver,drop.freate.io.vn").split(",") if host.strip()]
+SECRET_KEY = "django-insecure-freate-drop-development-key"
+DEBUG = True
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "testserver", "drop.freate.io.vn"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -32,6 +24,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -61,12 +54,12 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
 
-DATABASE_ENGINE = os.getenv("DATABASE_ENGINE", "sqlite").lower()
-DATABASE_NAME = os.getenv("DATABASE_NAME", str(BASE_DIR / "db.sqlite3"))
-DATABASE_USER = os.getenv("DATABASE_USER", "")
-DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD", "")
-DATABASE_HOST = os.getenv("DATABASE_HOST", "")
-DATABASE_PORT = os.getenv("DATABASE_PORT", "")
+DATABASE_ENGINE = "sqlite"
+DATABASE_NAME = str(BASE_DIR / "db.sqlite3")
+DATABASE_USER = ""
+DATABASE_PASSWORD = ""
+DATABASE_HOST = ""
+DATABASE_PORT = ""
 
 DATABASE_ENGINES = {
     "sqlite": "django.db.backends.sqlite3",
@@ -78,7 +71,7 @@ if DATABASE_ENGINE == "sqlite":
     DATABASES = {
         "default": {
             "ENGINE": DATABASE_ENGINES["sqlite"],
-            "NAME": BASE_DIR / DATABASE_NAME if not os.path.isabs(DATABASE_NAME) else DATABASE_NAME,
+            "NAME": BASE_DIR / DATABASE_NAME if not Path(DATABASE_NAME).is_absolute() else DATABASE_NAME,
         }
     }
 else:
@@ -128,7 +121,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://drop.freate.io.vn",
 ]
 
-FERNET_KEY = os.getenv("ENCRYPTION_KEY", Fernet.generate_key().decode())
+FERNET_KEY = Fernet.generate_key().decode()
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
@@ -138,3 +131,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ],
 }
+
+try:
+    from .local_settings import *  # noqa
+except ImportError:
+    pass

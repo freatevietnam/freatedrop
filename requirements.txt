@@ -2,3 +2,4 @@ Django
 django-cors-headers
 cryptography
 djangorestframework
+whitenoise
