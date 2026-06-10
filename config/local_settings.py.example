@@ -11,7 +11,8 @@ ALLOWED_HOSTS = [
     "drop.example.com",
 ]
 
-FERNET_KEY = "generate-with-python -c \"from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())\""
+# Generate with: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+# FERNET_KEY = "..."
 
 # Database — SQLite by default
 # DATABASE_ENGINE = "postgresql"  # or "mariadb"
@@ -26,3 +27,5 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
     "https://drop.example.com",
 ]
+
+# DROP_MAX_CHARS = 128_000  # uncomment to change the per-drop character limit

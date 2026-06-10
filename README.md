@@ -30,7 +30,13 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-Edit `config/local_settings.py` to set a `SECRET_KEY` and `FERNET_KEY` (or use the auto-generated defaults for development).
+Edit `config/local_settings.py` and set at least a `FERNET_KEY`:
+
+```bash
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+```
+
+Paste the output into `local_settings.py` as `FERNET_KEY`. You can also set `SECRET_KEY` and `DEBUG` there.
 
 ## Configuration
 
@@ -44,6 +50,7 @@ Settings live in `config/settings.py`. To override, copy the example file and un
 | `FERNET_KEY` | auto-generated | used for edit-token encryption |
 | `DATABASE_*` | SQLite (`db.sqlite3`) | switch to pg or mariadb |
 | `CSRF_TRUSTED_ORIGINS` | `localhost:8000` | add production origin |
+| `DROP_MAX_CHARS` | `128000` | max characters per drop |
 
 ## Production
 

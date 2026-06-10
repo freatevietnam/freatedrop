@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -214,6 +215,8 @@ def create_drop_api(request):
     password = normalize_optional_password(request.POST.get("password"))
     if not content:
         return JsonResponse({"success": False, "error": "Markdown content is required."}, status=400)
+    if len(content) > settings.DROP_MAX_CHARS:
+        return JsonResponse({"success": False, "error": f"Content exceeds the maximum of {settings.DROP_MAX_CHARS:,} characters."}, status=400)
     if password and not is_valid_drop_password(password):
         return JsonResponse({"success": False, "error": PASSWORD_RULES_MESSAGE}, status=400)
 
@@ -310,6 +313,8 @@ def drop_detail_api(request, drop_id: str):
         password = normalize_optional_password(payload.get("password"))
         if not content:
             return JsonResponse({"success": False, "error": "Markdown content is required."}, status=400)
+        if len(content) > settings.DROP_MAX_CHARS:
+            return JsonResponse({"success": False, "error": f"Content exceeds the maximum of {settings.DROP_MAX_CHARS:,} characters."}, status=400)
         if password_enabled and not password and not drop.has_password:
             return JsonResponse({"success": False, "error": "Password is required when protection is enabled."}, status=400)
         if password and not is_valid_drop_password(password):

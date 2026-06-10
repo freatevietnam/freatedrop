@@ -72,6 +72,7 @@
         <div class="space-y-2 editor-shell">
             <label for="markdown-input" class="block text-sm font-medium text-zinc-700">Markdown</label>
             <textarea id="markdown-input" class="w-full rounded border border-zinc-300 bg-white px-3 py-3 font-mono text-sm outline-none focus:border-zinc-900" placeholder="# Write your drop here...">{% if page_mode == 'edit' %}{{ drop.content }}{% endif %}</textarea>
+            <p id="char-counter" class="text-right text-xs text-zinc-400"></p>
         </div>
         <div class="space-y-2">
             <label class="block text-sm font-medium text-zinc-700">Live preview</label>

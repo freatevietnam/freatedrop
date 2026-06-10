@@ -59,8 +59,20 @@
         passwordFields.classList.toggle('hidden', !isPasswordEnabled());
     }
 
+    const MAX_CHARS = 128_000;
+    const charCounter = document.getElementById('char-counter');
+
+    function updateCharCount() {
+        if (!charCounter) return;
+        const len = getContent().length;
+        const over = len > MAX_CHARS;
+        charCounter.textContent = `${len.toLocaleString()} / ${MAX_CHARS.toLocaleString()}`;
+        charCounter.className = `text-right text-xs ${over ? 'text-red-500 font-medium' : 'text-zinc-400'}`;
+    }
+
     function updatePreview() {
         window.FreateDrop.renderMarkdown(getContent(), preview);
+        updateCharCount();
     }
 
     async function submitDrop() {
@@ -71,6 +83,11 @@
 
         if (!content) {
             window.FreateDrop.showStatus(status, 'Please enter Markdown content before publishing.', 'error');
+            return;
+        }
+
+        if (content.length > MAX_CHARS) {
+            window.FreateDrop.showStatus(status, `Content exceeds the maximum of ${MAX_CHARS.toLocaleString()} characters.`, 'error');
             return;
         }
 

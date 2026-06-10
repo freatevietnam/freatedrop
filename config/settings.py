@@ -123,6 +123,8 @@ CSRF_TRUSTED_ORIGINS = [
 
 FERNET_KEY = Fernet.generate_key().decode()
 
+DROP_MAX_CHARS = 128_000
+
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",
