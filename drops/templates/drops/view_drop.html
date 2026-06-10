@@ -10,14 +10,23 @@
             <p class="text-sm text-zinc-500">Drop ID</p>
             <h1 class="break-all text-2xl font-semibold tracking-tight">{{ drop.drop_id }}</h1>
         </div>
-        <div class="flex flex-wrap gap-2">
-            <button id="copy-link-button" class="rounded border border-zinc-300 px-3 py-2 text-sm hover:bg-zinc-100">Copy Link</button>
-            <button id="raw-toggle-button" class="rounded border border-zinc-300 px-3 py-2 text-sm hover:bg-zinc-100">Raw</button>
-            <button id="shorten-button" class="rounded border border-zinc-300 px-3 py-2 text-sm hover:bg-zinc-100">Short URL</button>
-            {% if can_edit %}
-                <a href="/{{ drop.drop_id }}/edit" class="rounded border border-zinc-300 px-3 py-2 text-sm hover:bg-zinc-100">Edit</a>
-                <button id="delete-button" class="rounded bg-red-600 px-3 py-2 text-sm text-white hover:bg-red-700">Delete</button>
-            {% endif %}
+        <div class="relative" id="drop-bar">
+            <button id="drop-bar-trigger" class="flex items-center gap-1.5 rounded border border-zinc-300 px-3 py-2 text-sm hover:bg-zinc-100">
+                Actions
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/></svg>
+            </button>
+            <div id="drop-bar-menu" class="absolute right-0 z-40 mt-1 hidden min-w-44 rounded-lg border border-zinc-200 bg-white py-1 shadow-lg">
+                <button id="copy-link-button" class="flex w-full items-center px-4 py-2 text-left text-sm hover:bg-zinc-50">Copy Link</button>
+                <button id="raw-toggle-button" class="flex w-full items-center px-4 py-2 text-left text-sm hover:bg-zinc-50">Raw</button>
+                <button id="shorten-button" class="flex w-full items-center px-4 py-2 text-left text-sm hover:bg-zinc-50">Short URL</button>
+                <button id="fullview-button" class="flex w-full items-center px-4 py-2 text-left text-sm hover:bg-zinc-50">Fullview</button>
+                <button id="print-button" class="flex w-full items-center px-4 py-2 text-left text-sm hover:bg-zinc-50">Print</button>
+                {% if can_edit %}
+                <hr class="my-1 border-zinc-100">
+                <a href="/{{ drop.drop_id }}/edit" class="flex w-full items-center px-4 py-2 text-left text-sm hover:bg-zinc-50">Edit</a>
+                <button id="delete-button" class="flex w-full items-center px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50">Delete</button>
+                {% endif %}
+            </div>
         </div>
     </div>
 
@@ -50,7 +59,7 @@
 <script>
     window.FREATE_DROP_VIEWER = {
         dropId: '{{ drop.drop_id }}',
-        rawUrl: '/{{ drop.drop_id }}/raw',
+        rawUrl: '{{ request.scheme }}://{{ request.get_host }}/{{ drop.drop_id }}/raw',
         canEdit: {% if can_edit %}true{% else %}false{% endif %},
         canAccess: {% if can_access %}true{% else %}false{% endif %},
         hasPassword: {% if drop.has_password %}true{% else %}false{% endif %}

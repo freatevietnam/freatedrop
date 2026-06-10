@@ -485,6 +485,14 @@ window.FreateDrop = (() => {
         return fetch(url, { credentials: 'same-origin', ...options, headers });
     }
 
+    function toggleTheme() {
+        const html = document.documentElement;
+        const isDark = html.classList.toggle('dark');
+        localStorage.setItem('freatedrop-theme', isDark ? 'dark' : 'light');
+    }
+
+    document.getElementById('darkmode-toggle')?.addEventListener('click', toggleTheme);
+
     return {
         setCookie,
         getCookie,
@@ -495,6 +503,7 @@ window.FreateDrop = (() => {
         renderMath,
         showStatus,
         apiFetch,
+        toggleTheme,
         escapeHtml,
         sanitizeHtml,
         loadFontFromUrl,

@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css">
     <script>
+        (function() {
+            var theme = localStorage.getItem('freatedrop-theme');
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+    <script>
         window.MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -257,6 +265,473 @@
             color: rgb(63 63 70);
         }
     </style>
+
+    <style>
+        .fullview-mode header,
+        .fullview-mode #viewer-status,
+        .fullview-mode #short-url-panel,
+        .fullview-mode #password-panel,
+        .fullview-mode section > div:first-child {
+            display: none !important;
+        }
+
+        .fullview-mode section {
+            max-width: 100% !important;
+            margin: 0 !important;
+        }
+
+        .fullview-mode #rendered-view {
+            min-height: 100vh !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 2rem 2.5rem !important;
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+        .fullview-mode .mx-auto {
+            max-width: 100% !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        .fullview-mode main {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        @media print {
+            header,
+            #drop-bar,
+            #viewer-status,
+            #short-url-panel,
+            #password-panel,
+            #fullview-button,
+            #print-button,
+            footer {
+                display: none !important;
+            }
+
+            body, .mx-auto, main, section {
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: #fff !important;
+            }
+
+            section > div:first-child {
+                margin-bottom: 0.75rem !important;
+            }
+
+            section > div:first-child p {
+                font-size: 0.75rem !important;
+                color: #666 !important;
+                margin: 0 !important;
+            }
+
+            section > div:first-child h1 {
+                font-size: 0.85rem !important;
+                font-weight: 600 !important;
+                color: #333 !important;
+                margin: 0 !important;
+                border: none !important;
+                padding: 0 !important;
+                word-break: break-all !important;
+            }
+
+            #rendered-view {
+                border: none !important;
+                border-radius: 0 !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                color: #000 !important;
+                background: #fff !important;
+            }
+
+            .markdown-body a {
+                color: #000 !important;
+                text-decoration: underline !important;
+            }
+
+            .markdown-body pre,
+            .markdown-body code {
+                background: #f5f5f5 !important;
+                color: #000 !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid;
+            }
+
+            .markdown-body img {
+                max-width: 100% !important;
+                page-break-inside: avoid;
+            }
+
+            .markdown-body h1,
+            .markdown-body h2,
+            .markdown-body h3,
+            .markdown-body h4 {
+                page-break-after: avoid;
+            }
+
+            .code-copy-button {
+                display: none !important;
+            }
+        }
+
+        .dark {
+            color-scheme: dark;
+        }
+
+        .dark body {
+            background-color: #09090b;
+            color: #e4e4e7;
+        }
+
+        .dark header {
+            border-color: #27272a;
+        }
+
+        .dark header a,
+        .dark header button {
+            border-color: #27272a;
+            color: #e4e4e7;
+            background: transparent;
+        }
+
+        .dark header a:hover,
+        .dark header button:hover {
+            background-color: #18181b;
+        }
+
+        .dark header a[href="/new/"] {
+            background-color: #f4f4f5;
+            color: #09090b;
+        }
+
+        .dark header a[href="/new/"]:hover {
+            background-color: #e4e4e7;
+        }
+
+        .dark .markdown-body {
+            color: #d4d4d8;
+        }
+
+        .dark .markdown-body h1,
+        .dark .markdown-body h2,
+        .dark .markdown-body h3,
+        .dark .markdown-body h4,
+        .dark .markdown-body h5,
+        .dark .markdown-body h6 {
+            color: #f4f4f5;
+        }
+
+        .dark .markdown-body h1,
+        .dark .markdown-body h2 {
+            border-bottom-color: #27272a;
+        }
+
+        .dark .markdown-body a {
+            color: #60a5fa;
+        }
+
+        .dark .markdown-body a:hover {
+            color: #93c5fd;
+        }
+
+        .dark .markdown-body strong {
+            color: #f4f4f5;
+        }
+
+        .dark .markdown-body del {
+            color: #71717a;
+        }
+
+        .dark .markdown-body hr {
+            border-top-color: #27272a;
+        }
+
+        .dark .markdown-body blockquote {
+            border-left-color: #3f3f46;
+            color: #a1a1aa;
+            background: #18181b;
+        }
+
+        .dark .markdown-body code {
+            background: #18181b;
+            color: #e4e4e7;
+        }
+
+        .dark .markdown-body table thead {
+            background: #18181b;
+        }
+
+        .dark .markdown-body th,
+        .dark .markdown-body td {
+            border-color: #27272a;
+        }
+
+        .dark .markdown-body th {
+            color: #f4f4f5;
+        }
+
+        .dark .markdown-body img {
+            border-color: #27272a;
+        }
+
+        .dark .markdown-body kbd {
+            border-color: #3f3f46;
+            background: #18181b;
+        }
+
+        .dark .markdown-body .code-block {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: #0d1117;
+            border-color: #30363d;
+        }
+
+        .dark .markdown-body .code-block-header {
+            background: #161b22;
+            border-bottom-color: #30363d;
+        }
+
+        .dark .markdown-body .code-block-language {
+            color: #c9d1d9;
+        }
+
+        .dark .markdown-body .code-copy-button {
+            border-color: #30363d;
+            background: transparent;
+            color: #c9d1d9;
+        }
+
+        .dark .markdown-body .code-copy-button:hover {
+            border-color: #8b949e;
+            background: #21262d;
+        }
+
+        .dark .markdown-body .footnotes {
+            border-top-color: #27272a;
+            color: #a1a1aa;
+        }
+
+        .dark #rendered-view {
+            background: #09090b;
+            border-color: #27272a;
+        }
+
+        .dark #password-panel,
+        .dark #short-url-panel {
+            background: #18181b;
+            border-color: #27272a;
+        }
+
+        .dark #password-panel h2 {
+            color: #f4f4f5;
+        }
+
+        .dark #password-panel p,
+        .dark .dark\:text-zinc-400 {
+            color: #a1a1aa;
+        }
+
+        .dark #password-panel input,
+        .dark #short-url-panel input {
+            background: #09090b;
+            border-color: #3f3f46;
+            color: #e4e4e7;
+        }
+
+        .dark #password-panel input:focus,
+        .dark #short-url-panel input:focus {
+            border-color: #f4f4f5;
+        }
+
+        .dark #unlock-drop-button,
+        .dark #copy-short-url-button {
+            background: #f4f4f5;
+            color: #09090b;
+        }
+
+        .dark #unlock-drop-button:hover,
+        .dark #copy-short-url-button:hover {
+            background: #e4e4e7;
+        }
+
+        .dark #drop-bar-trigger {
+            border-color: #27272a;
+            color: #e4e4e7;
+        }
+
+        .dark #drop-bar-trigger:hover {
+            background: #18181b;
+        }
+
+        .dark #drop-bar-menu {
+            background: #18181b;
+            border-color: #27272a;
+        }
+
+        .dark #drop-bar-menu button,
+        .dark #drop-bar-menu a {
+            color: #e4e4e7;
+        }
+
+        .dark #drop-bar-menu button:hover,
+        .dark #drop-bar-menu a:hover {
+            background: #27272a;
+        }
+
+        .dark #drop-bar-menu hr {
+            border-color: #27272a;
+        }
+
+        .dark #drop-bar-menu #delete-button {
+            color: #f87171;
+        }
+
+        .dark #drop-bar-menu #delete-button:hover {
+            background: #3b0f0f;
+        }
+
+        .dark .fullview-exit-btn {
+            background: #e4e4e7 !important;
+            color: #09090b !important;
+            border-color: #a1a1aa !important;
+        }
+
+        .dark .fullview-exit-btn:hover {
+            background: #f4f4f5 !important;
+        }
+
+        .dark input,
+        .dark input[type="text"],
+        .dark input[type="password"],
+        .dark input[type="email"] {
+            background: #09090b;
+            border-color: #3f3f46;
+            color: #e4e4e7;
+        }
+
+        .dark input:focus,
+        .dark input[type="text"]:focus,
+        .dark input[type="password"]:focus,
+        .dark input[type="email"]:focus {
+            border-color: #f4f4f5;
+        }
+
+        .dark .bg-zinc-900 {
+            background: #f4f4f5;
+            color: #09090b;
+        }
+
+        .dark .bg-zinc-900:hover {
+            background: #e4e4e7;
+        }
+
+        .dark .bg-red-600 {
+            background: #dc2626;
+        }
+
+        .dark .bg-red-600:hover {
+            background: #b91c1c;
+        }
+
+        .dark .text-zinc-500,
+        .dark .text-zinc-600,
+        .dark .text-zinc-700 {
+            color: #a1a1aa;
+        }
+
+        .dark .text-zinc-900 {
+            color: #f4f4f5;
+        }
+
+        .dark .border-zinc-200,
+        .dark .border-zinc-300 {
+            border-color: #27272a;
+        }
+
+        .dark .divide-zinc-200 > * {
+            border-color: #27272a;
+        }
+
+        .dark .bg-zinc-50 {
+            background-color: #18181b;
+        }
+
+        .dark .bg-white {
+            background-color: #18181b;
+        }
+
+        .dark .hover\:bg-zinc-100:hover {
+            background-color: #27272a;
+        }
+
+        .dark .hover\:border-zinc-400:hover {
+            border-color: #52525b;
+        }
+
+        .dark .editor-shell .EasyMDEContainer {
+            background: #09090b;
+            border-color: #27272a;
+        }
+
+        .dark .editor-shell .editor-toolbar {
+            background: #18181b;
+            border-bottom-color: #27272a;
+        }
+
+        .dark .editor-shell .CodeMirror {
+            background: #09090b;
+            color: #e4e4e7;
+        }
+
+        .dark .editor-shell .CodeMirror-cursor {
+            border-color: #f4f4f5;
+        }
+
+        .dark .editor-shell .CodeMirror-gutters {
+            background: #18181b;
+            border-color: #27272a;
+        }
+
+        .dark .editor-shell .editor-preview {
+            background: #09090b;
+        }
+
+        .dark .editor-shell .EasyMDEContainer .CodeMirror-focused {
+            border-color: #f4f4f5;
+        }
+
+        .dark .editor-shell .editor-toolbar i.separator {
+            border-color: #3f3f46;
+        }
+
+        .dark .editor-shell .editor-toolbar button:hover,
+        .dark .editor-shell .editor-toolbar button.active {
+            background: #27272a;
+            border-color: #3f3f46;
+        }
+
+        .dark #markdown-preview {
+            background: #09090b;
+            border-color: #27272a;
+        }
+
+        .dark .rounded-lg.border.border-red-200 {
+            border-color: #7f1d1d;
+            background: #2d0f0f;
+        }
+
+        .dark .rounded-lg.border.border-red-200 .text-red-700 {
+            color: #fca5a5;
+        }
+        .dark footer {
+            border-color: #27272a;
+        }
+    </style>
+
     {% block head %}{% endblock %}
 </head>
 <body class="min-h-screen bg-zinc-50 text-zinc-900">
@@ -267,6 +742,10 @@
                 <nav class="flex flex-wrap items-center gap-3 text-sm">
                     <a href="/" class="rounded border border-zinc-300 px-3 py-2 hover:bg-zinc-100">Home</a>
                     <a href="/new/" class="rounded bg-zinc-900 px-3 py-2 text-white hover:bg-zinc-700">Create New Drop</a>
+                    <button id="darkmode-toggle" class="rounded border border-zinc-300 p-2 leading-none hover:bg-zinc-100" title="Toggle dark mode">
+                        <svg class="h-4 w-4 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/></svg>
+                        <svg class="hidden h-4 w-4 dark:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/></svg>
+                    </button>
                     {% if request.user.is_authenticated %}
                         <a href="/dashboard/" class="rounded border border-zinc-300 px-3 py-2 hover:bg-zinc-100">Dashboard</a>
                         <form action="/logout/" method="post" class="inline">
@@ -284,6 +763,10 @@
         <main class="flex-1">
             {% block content %}{% endblock %}
         </main>
+
+        <footer class="mt-16 border-t border-zinc-200 pt-6 pb-2 text-center text-xs text-zinc-500">
+            Freate Drop &middot; built with Django &amp; Tailwind CSS
+        </footer>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>

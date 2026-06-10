@@ -4,10 +4,32 @@
 
 {% block content %}
 <section class="mx-auto max-w-4xl space-y-8">
-    <div class="max-w-2xl space-y-4">
+    <div class="space-y-4">
         <p class="text-sm uppercase tracking-[0.2em] text-zinc-500">Markdown sharing</p>
         <h1 class="text-4xl font-semibold tracking-tight">Share Markdown instantly with no required login.</h1>
         <p class="text-lg text-zinc-600">Freate Drop is a lightweight place to publish notes, code snippets, documentation, and math-heavy text with a simple link.</p>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-3">
+        <a href="/new/" class="rounded-lg border border-zinc-200 bg-white p-6 hover:border-zinc-400">
+            <h2 class="text-lg font-semibold">Create New Drop</h2>
+            <p class="mt-2 text-sm text-zinc-600">Open the Markdown editor and publish a new drop with live preview.</p>
+        </a>
+
+        <div class="rounded-lg border border-zinc-200 bg-white p-6">
+            <h2 class="text-lg font-semibold">View Drop</h2>
+            <p class="mt-2 text-sm text-zinc-600">Paste a 32-character drop ID or a full URL to open an existing drop.</p>
+            <form id="lookup-form" class="mt-4 space-y-3">
+                <label for="drop-lookup" class="block text-sm font-medium text-zinc-700">Drop ID or URL</label>
+                <input id="drop-lookup" name="drop-lookup" type="text" class="w-full rounded border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-900" placeholder="Paste drop ID or URL">
+                <button type="submit" class="w-full rounded bg-zinc-900 px-4 py-2 text-white hover:bg-zinc-700">Open Drop</button>
+            </form>
+        </div>
+
+        <div class="rounded-lg border border-zinc-200 bg-white p-6">
+            <h2 class="text-lg font-semibold">What is Freate Drop?</h2>
+            <p class="mt-2 text-sm leading-6 text-zinc-600">It is a minimal Markdown drop service for sharing rendered text, code blocks, and formulas. Anonymous users can publish right away, and signed-in users also get a personal dashboard.</p>
+        </div>
     </div>
 
     {% if editable_drops %}
@@ -37,28 +59,6 @@
             </div>
         </section>
     {% endif %}
-
-    <div class="grid gap-4 md:grid-cols-3">
-        <a href="/new/" class="rounded-lg border border-zinc-200 bg-white p-6 hover:border-zinc-400">
-            <h2 class="text-lg font-semibold">Create New Drop</h2>
-            <p class="mt-2 text-sm text-zinc-600">Open the Markdown editor and publish a new drop with live preview.</p>
-        </a>
-
-        <div class="rounded-lg border border-zinc-200 bg-white p-6">
-            <h2 class="text-lg font-semibold">View Drop</h2>
-            <p class="mt-2 text-sm text-zinc-600">Paste a 32-character drop ID or a full URL to open an existing drop.</p>
-            <form id="lookup-form" class="mt-4 space-y-3">
-                <label for="drop-lookup" class="block text-sm font-medium text-zinc-700">Drop ID or URL</label>
-                <input id="drop-lookup" name="drop-lookup" type="text" class="w-full rounded border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-900" placeholder="Paste drop ID or URL">
-                <button type="submit" class="w-full rounded bg-zinc-900 px-4 py-2 text-white hover:bg-zinc-700">Open Drop</button>
-            </form>
-        </div>
-
-        <div class="rounded-lg border border-zinc-200 bg-white p-6">
-            <h2 class="text-lg font-semibold">What is Freate Drop?</h2>
-            <p class="mt-2 text-sm leading-6 text-zinc-600">It is a minimal Markdown drop service for sharing rendered text, code blocks, and formulas. Anonymous users can publish right away, and signed-in users also get a personal dashboard.</p>
-        </div>
-    </div>
 </section>
 {% endblock %}
 

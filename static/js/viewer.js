@@ -133,6 +133,62 @@
         window.location.href = data.redirect_url;
     }
 
+    const printButton = document.getElementById('print-button');
+
+    printButton?.addEventListener('click', () => window.print());
+
+    (() => {
+        const trigger = document.getElementById('drop-bar-trigger');
+        const menu = document.getElementById('drop-bar-menu');
+        if (!trigger || !menu) return;
+
+        function closeMenu() { menu.classList.add('hidden'); }
+        function toggleMenu() { menu.classList.toggle('hidden'); }
+
+        trigger.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+
+        document.addEventListener('click', closeMenu);
+
+        menu.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('click', closeMenu);
+        });
+    })();
+
+    const fullviewButton = document.getElementById('fullview-button');
+    let fullviewExitBtn = null;
+
+    function toggleFullview() {
+        if (renderedView.classList.contains('hidden')) {
+            window.FreateDrop.showStatus(status, 'Unlock the drop first to use Fullview.', 'error');
+            return;
+        }
+
+        const isActive = document.body.classList.toggle('fullview-mode');
+
+        if (isActive) {
+            fullviewButton.textContent = 'Exit';
+            fullviewExitBtn = document.createElement('button');
+            fullviewExitBtn.textContent = 'Exit Fullview';
+            fullviewExitBtn.className = 'fullview-exit-btn fixed top-4 right-4 z-50 rounded border border-zinc-600 bg-zinc-900/80 px-3 py-2 text-sm text-white hover:bg-zinc-900 backdrop-blur-sm';
+            fullviewExitBtn.addEventListener('click', toggleFullview);
+            document.body.appendChild(fullviewExitBtn);
+        } else {
+            fullviewButton.textContent = 'Fullview';
+            if (fullviewExitBtn) {
+                fullviewExitBtn.remove();
+                fullviewExitBtn = null;
+            }
+        }
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('fullview-mode')) {
+            toggleFullview();
+        }
+    });
+
+    fullviewButton?.addEventListener('click', toggleFullview);
+
     accessPasswordInput?.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();

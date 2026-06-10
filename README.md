@@ -6,13 +6,18 @@ Freate Drop is a full-stack Django web application for sharing Markdown content 
 
 - Publish Markdown drops with 32-character alphanumeric IDs
 - Live Markdown preview using CDN-loaded `marked`
-- Syntax highlighting with `highlight.js`
+- Syntax highlighting with `highlight.js` (GitHub Dark theme)
 - Math rendering with KaTeX and MathJax
 - Anonymous edit/delete via HttpOnly token cookie
 - Logged-in user ownership and dashboard management
 - 8-character short URLs with `/s/<code>/` redirects
 - Raw Markdown endpoint at `/<drop_id>/raw`
 - SQLite by default, configurable for PostgreSQL or MariaDB via environment variables
+- **Fullview mode** — distraction-free reading that hides all UI and expands content to full viewport
+- **Print support** — optimized print layout with header (Drop ID) and light mode forced
+- **Drop bar** — collapsible actions dropdown instead of inline buttons
+- **Dark mode** — system-aware with manual toggle, persisted to localStorage
+- **Footer** — minimalist footer with attribution
 
 ## Verified dependency versions
 
@@ -27,14 +32,16 @@ Freate Drop is a full-stack Django web application for sharing Markdown content 
 
 - TailwindCSS browser CDN: `https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4`
 - marked `18.0.5`: `https://cdn.jsdelivr.net/npm/marked@18.0.5/lib/marked.umd.js`
+- DOMPurify `3.x`: `https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js`
 - highlight.js `11.11.1`:
-  - CSS: `https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/default.min.css`
+  - CSS: `https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css`
   - JS: `https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js`
 - KaTeX `0.17.0`:
   - CSS: `https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css`
   - JS: `https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js`
   - Auto-render: `https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js`
 - MathJax v4 latest 4.x component: `https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js`
+- EasyMDE: `https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js` + `.css`
 
 ## Setup
 
@@ -103,6 +110,8 @@ python manage.py runserver
 - Anonymous drops use an HttpOnly cookie named `drop_token_<drop_id>` for edit/delete authorization.
 - Logged-in users can manage their own drops even without the cookie.
 - Short URLs are generated lazily the first time a user clicks the shorten button.
+- Dark mode preference is saved in `localStorage` under key `freatedrop-theme`.
+- Fullview can be exited with the floating **Exit Fullview** button or the `Escape` key.
 
 ## Images
 
