@@ -201,6 +201,77 @@
     rawButton?.addEventListener('click', openRaw);
     shortenButton?.addEventListener('click', shortenUrl);
     deleteButton?.addEventListener('click', deleteDrop);
+
+    (() => {
+        const panelId = 'shortcuts-panel';
+        const overlayId = 'shortcuts-overlay';
+
+        function buildShortcutsPanel() {
+            if (document.getElementById(panelId)) return;
+
+            const overlay = document.createElement('div');
+            overlay.id = overlayId;
+            overlay.className = 'fixed inset-0 z-50 hidden bg-black/40';
+
+            const panel = document.createElement('div');
+            panel.id = panelId;
+            panel.className = 'fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl border border-zinc-200 bg-white p-6 shadow-2xl';
+
+            panel.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold tracking-tight">Shortcuts</h2>
+                    <button id="shortcuts-close" class="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between py-1.5"><span class="text-zinc-600">Show / hide shortcuts</span><kbd class="rounded border border-zinc-300 bg-zinc-50 px-2 py-0.5 font-mono text-xs">F1</kbd></div>
+                    <div class="flex justify-between py-1.5"><span class="text-zinc-600">Toggle fullview</span><kbd class="rounded border border-zinc-300 bg-zinc-50 px-2 py-0.5 font-mono text-xs">F</kbd></div>
+                    <div class="flex justify-between py-1.5"><span class="text-zinc-600">Print drop</span><kbd class="rounded border border-zinc-300 bg-zinc-50 px-2 py-0.5 font-mono text-xs">P</kbd></div>
+                    <div class="flex justify-between py-1.5 border-t border-zinc-100 mt-2 pt-3"><span class="text-zinc-600">Exit fullview</span><kbd class="rounded border border-zinc-300 bg-zinc-50 px-2 py-0.5 font-mono text-xs">Esc</kbd></div>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+            document.body.appendChild(panel);
+
+            function close() {
+                overlay.classList.add('hidden');
+                panel.classList.add('hidden');
+            }
+
+            overlay.addEventListener('click', close);
+            document.getElementById('shortcuts-close')?.addEventListener('click', close);
+        }
+
+        function toggleShortcuts() {
+            buildShortcutsPanel();
+            const overlay = document.getElementById(overlayId);
+            const panel = document.getElementById(panelId);
+            const isHidden = overlay.classList.contains('hidden');
+            overlay.classList.toggle('hidden', !isHidden);
+            panel.classList.toggle('hidden', !isHidden);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F1' || (e.key === '?' && !e.ctrlKey && !e.metaKey)) {
+                e.preventDefault();
+                toggleShortcuts();
+                return;
+            }
+            if (e.key === 'f' && !e.ctrlKey && !e.metaKey && !e.target.closest('input,textarea,button,a')) {
+                e.preventDefault();
+                toggleFullview();
+                return;
+            }
+            if (e.key === 'p' && !e.ctrlKey && !e.metaKey && !e.target.closest('input,textarea,button,a')) {
+                e.preventDefault();
+                window.print();
+                return;
+            }
+        });
+    })();
+
     if (config.canAccess || config.canEdit || !config.hasPassword) {
         loadDrop();
     }

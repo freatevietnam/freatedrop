@@ -18,6 +18,7 @@ Freate Drop is a full-stack Django web application for sharing Markdown content 
 - **Drop bar** — collapsible actions dropdown instead of inline buttons
 - **Dark mode** — system-aware with manual toggle, persisted to localStorage
 - **Footer** — minimalist footer with attribution
+- **Keyboard shortcuts** — `F1` / `?` for shortcuts panel; `F` toggle fullview, `P` print (viewer); `Ctrl+Enter` publish, `Ctrl+P` toggle password (editor)
 
 ## Verified dependency versions
 

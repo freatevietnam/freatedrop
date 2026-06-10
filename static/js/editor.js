@@ -125,4 +125,76 @@
     button.addEventListener('click', submitDrop);
     syncPasswordVisibility();
     updatePreview();
+
+    (() => {
+        const panelId = 'shortcuts-panel';
+        const overlayId = 'shortcuts-overlay';
+
+        function buildShortcutsPanel() {
+            if (document.getElementById(panelId)) return;
+
+            const overlay = document.createElement('div');
+            overlay.id = overlayId;
+            overlay.className = 'fixed inset-0 z-50 hidden bg-black/40';
+
+            const panel = document.createElement('div');
+            panel.id = panelId;
+            panel.className = 'fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl border border-zinc-200 bg-white p-6 shadow-2xl';
+
+            panel.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold tracking-tight">Shortcuts</h2>
+                    <button id="shortcuts-close" class="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between py-1.5"><span class="text-zinc-600">Show / hide shortcuts</span><kbd class="rounded border border-zinc-300 bg-zinc-50 px-2 py-0.5 font-mono text-xs">F1</kbd></div>
+                    <div class="flex justify-between py-1.5"><span class="text-zinc-600">Publish / save</span><kbd class="rounded border border-zinc-300 bg-zinc-50 px-2 py-0.5 font-mono text-xs">Ctrl+Enter</kbd></div>
+                    <div class="flex justify-between py-1.5"><span class="text-zinc-600">Toggle password</span><kbd class="rounded border border-zinc-300 bg-zinc-50 px-2 py-0.5 font-mono text-xs">Ctrl+P</kbd></div>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+            document.body.appendChild(panel);
+
+            function close() {
+                overlay.classList.add('hidden');
+                panel.classList.add('hidden');
+            }
+
+            overlay.addEventListener('click', close);
+            document.getElementById('shortcuts-close')?.addEventListener('click', close);
+        }
+
+        function toggleShortcuts() {
+            buildShortcutsPanel();
+            const overlay = document.getElementById(overlayId);
+            const panel = document.getElementById(panelId);
+            const isHidden = overlay.classList.contains('hidden');
+            overlay.classList.toggle('hidden', !isHidden);
+            panel.classList.toggle('hidden', !isHidden);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F1' || (e.key === '?' && !e.ctrlKey && !e.metaKey)) {
+                e.preventDefault();
+                toggleShortcuts();
+                return;
+            }
+
+            const mod = e.ctrlKey || e.metaKey;
+            if (mod && e.key === 'Enter') {
+                e.preventDefault();
+                submitDrop();
+                return;
+            }
+
+            if (mod && e.key === 'p') {
+                e.preventDefault();
+                passwordEnabledInput?.click();
+                return;
+            }
+        });
+    })();
 })();
