@@ -10,5 +10,6 @@ urlpatterns = [
     path("s/<str:short_code>/", views.short_redirect, name="short_redirect"),
     path("<str:drop_id>/raw", views.raw_drop_view, name="raw_drop"),
     path("<str:drop_id>/edit", views.edit_drop_page, name="edit_drop"),
+    path("about/", views.about_drop_view, name="about_drop"),
     path("<str:drop_id>/", views.view_drop_page, name="view_drop"),
 ]

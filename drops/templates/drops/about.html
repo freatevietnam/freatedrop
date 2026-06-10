@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About · Freate Drop{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-4xl space-y-4">
+    <div>
+        <p class="text-sm uppercase tracking-[0.2em] text-zinc-500">About</p>
+        <h1 class="text-3xl font-semibold tracking-tight">Freate Drop</h1>
+    </div>
+
+    <div id="rendered-view" class="markdown-body rounded border border-zinc-300 bg-white px-5 py-4"></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/app.js' %}"></script>
+<script>
+    const content = `# Freate Drop
+
+Freate Drop is a lightweight Markdown sharing platform built with **Django** and **Tailwind CSS**. No login required to publish — just write Markdown and share the link.
+
+> **Source code:** [github.com/freatevietnam/freatedrop](https://github.com/freatevietnam/freatedrop)
+
+---
+
+## How to use
+
+### Create a drop
+
+1. Go to [/new/](/new/) and write your content in Markdown.
+2. Optionally set a password to protect the drop.
+3. Click **Publish** — you will be redirected to the drop's page.
+4. Copy the link and share it.
+
+### Edit or delete
+
+- If you created the drop (or have the edit token), the drop page shows **Edit** and **Delete** buttons in the Actions menu.
+- Edits are authorized via an encrypted cookie stored in your browser.
+
+### Short URLs
+
+On the drop page, click **Short URL** to generate an 8-character short link (e.g. \`/s/AbCdEf12/\`).
+
+### View raw content
+
+Add \`/raw\` to any drop URL to get the raw Markdown source as plain text.
+
+---
+
+## Drop actions (viewer page)
+
+Each drop has an **Actions** dropdown with:
+
+| Action | Description |
+|---|---|
+| Copy Link | Copy the drop URL to clipboard |
+| Raw | Open the raw Markdown source in a new tab |
+| Short URL | Generate and show an 8-character short link |
+| Fullview | Full-screen reading mode; press \`F\` or \`Esc\` to toggle/exit |
+| Print | Print the rendered content (Drop ID shown at top) |
+| Edit | Open the editor (only if you can manage the drop) |
+| Delete | Permanently remove the drop (only if you can manage it) |
+
+---
+
+## Keyboard shortcuts
+
+| Key | Page | Action |
+|---|---|---|
+| \`F1\` / \`?\` | Any | Toggle shortcuts help panel |
+| \`F\` | Viewer | Toggle fullview mode |
+| \`P\` | Viewer | Print drop |
+| \`Esc\` | Viewer | Exit fullview |
+| \`Ctrl+Enter\` | Editor | Publish / save changes |
+| \`Ctrl+P\` | Editor | Toggle password protection |
+
+---
+
+## Custom Markdown extensions
+
+### Google Fonts
+
+Embed custom fonts using the \`%%font\` directive:
+
+\`\`\`markdown
+%%font:FontName:https://fonts.googleapis.com/css2?family=FontName%%
+
+
+# Your content here
+\`\`\`
+
+**Example:**
+
+\`\`\`markdown
+%%font:Playfair Display:https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400%%
+
+
+# Styled heading
+\`\`\`
+
+The font directive is removed from the rendered output — only the styling remains.
+
+---
+
+## Tech stack
+
+| Component | Technology |
+|---|---|
+| Backend | Django 6 + Django REST Framework |
+| Database | SQLite (default), PostgreSQL, MariaDB |
+| Markdown | marked 18 |
+| Math | KaTeX + MathJax 4 |
+| Code highlighting | highlight.js (GitHub Dark) |
+| Sanitization | DOMPurify |
+| Editor | EasyMDE |
+| CSS | Tailwind CSS v4 (CDN) |
+| Encryption | cryptography (Fernet) |
+
+---
+
+## License
+
+MIT License — see the repository for details.
+`;
+
+    const target = document.getElementById('rendered-view');
+    window.FreateDrop.renderMarkdown(content, target);
+</script>
+{% endblock %}

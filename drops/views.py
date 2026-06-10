@@ -375,6 +375,11 @@ def shorten_drop_api(request, drop_id: str):
 
 
 @require_GET
+def about_drop_view(request):
+    return render(request, "drops/about.html")
+
+
+@require_GET
 def raw_drop_view(request, drop_id: str):
     drop = get_drop_or_404(drop_id)
     if user_can_access_drop(request, drop):
